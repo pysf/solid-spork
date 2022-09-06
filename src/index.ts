@@ -2,11 +2,13 @@ import express from "express";
 import config from "config";
 import { connectToDB } from "./mongodb/connection";
 import router from "./routes";
+import { intentReplySeeder } from "./seeder";
 
 const app = express();
 
 connectToDB()
-  .then(() => {
+  .then(async () => {
+    await intentReplySeeder();
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(router);
