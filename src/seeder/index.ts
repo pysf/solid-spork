@@ -4,9 +4,9 @@ import { getIntentReplyCollection } from "../mongodb/connection";
 import { buildSeedIntentReply } from "./intent-reply-seeder";
 
 const data: IntentReply[] = JSON.parse(JSON.stringify(intentReplyData));
-const intentReplySeeder = buildSeedIntentReply({
+const seedRepliesIntoDB = buildSeedIntentReply({
   getIntentReplyCollection,
   intentReplyData: data,
 });
 
-export { intentReplySeeder };
+export { seedRepliesIntoDB };

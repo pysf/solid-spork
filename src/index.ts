@@ -2,13 +2,14 @@ import express from "express";
 import config from "config";
 import { connectToDB } from "./mongodb/connection";
 import router from "./routes";
-import { intentReplySeeder } from "./seeder";
+import { seedRepliesIntoDB } from "./seeder";
 
 const app = express();
 
 connectToDB()
   .then(async () => {
-    await intentReplySeeder();
+    await seedRepliesIntoDB();
+
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(router);
@@ -21,3 +22,12 @@ connectToDB()
     console.log("Faild to connect to the DB ", err);
     process.exit(1);
   });
+
+process.on("unhandledRejection", (error) => {
+  throw error;
+});
+
+process.on("uncaughtException", (error) => {
+  console.log(error);
+  // integrate Sentry to get notified
+});
