@@ -1,14 +1,38 @@
-version: '3.7'
+version: "3.7"
+
+networks:
+  app-net:
+    driver: bridge
+volumes:
+  mongodb_data:
 
 services:
-    node:
-        image: 'node:16'
-        user: 'node'
-        working_dir: /home/node/app
-        environment:
-            - NODE_ENV=production
-        volumes:
-            - ./:/home/node/app
-        expose:
-            - '3000'
-        command: 'npm run dev'
+  api:
+    image: "node:16"
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - 3000:3000
+    restart: on-failure
+    command: "npm run dev"
+    depends_on:
+      - db
+    networks:
+      - app-net
+  db:
+    container_name: db
+    image: bitnami/mongodb:6.0
+    restart: on-failure
+    ports:
+      - 27017:27017
+    environment:
+      - MONGODB_USERNAME=solid_spork
+      - MONGODB_ROOT_PASSWORD=BediraeougcoeudHheu
+      - MONGODB_PASSWORD=TBA2yac4kjzhnj2bqn
+      - MONGODB_DATABASE=solid_spork
+    networks:
+      - app-net
+    volumes:
+      - mongodb_data:/bitnami/mongodb
