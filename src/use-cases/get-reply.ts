@@ -6,10 +6,10 @@ export function buildGetReply(options: {
         botId: string,
         message: string
     ) => Promise<IntentRecognitionResponse | null>
-    findIntentReply: (message: string) => Promise<IntentReply | null>
+    findReply: (message: string) => Promise<IntentReply | null>
     getDefaultReply: () => Promise<string>
 }) {
-    const { findIntention, findIntentReply, getDefaultReply } = options
+    const { findIntention, findReply, getDefaultReply } = options
 
     return async function getReply(
         botId: string,
@@ -26,7 +26,7 @@ export function buildGetReply(options: {
             }
         )
 
-        const intentReply = await findIntentReply(highestConfidence.name)
+        const intentReply = await findReply(highestConfidence.name)
         if (!intentReply) {
             //todo: invistigate if this should be reported as inconsistency or lack of IntentReply
             return getDefaultReply()
