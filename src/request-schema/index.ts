@@ -1,3 +1,3 @@
-import { botMessageSchema } from "./bot-message-schema";
+import { botMessageSchema } from './bot-message-schema'
 
-export { botMessageSchema };
+export { botMessageSchema }

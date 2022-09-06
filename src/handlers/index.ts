@@ -1,9 +1,9 @@
-import { buildBotMessageHandler } from "./bot-message-handler";
+import { buildBotMessageHandler } from './bot-message-handler'
 
-import { getReply } from "../use-cases";
+import { getReply } from '../use-cases'
 
 const botMessageHandler = buildBotMessageHandler({
-  getReply,
-});
+    getReply,
+})
 
-export { botMessageHandler };
+export { botMessageHandler }
