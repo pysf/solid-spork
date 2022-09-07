@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 
-export interface IntentReply {
-    id?: ObjectId
+export interface Reply {
+    _id?: ObjectId
     name: string
     description: string
     reply: {

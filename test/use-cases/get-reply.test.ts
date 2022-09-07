@@ -1,16 +1,14 @@
-import { IntentReply } from '../../src/models/Intent-reply'
+import { Reply } from '../../src/models/reply'
 import { buildGetReply } from '../../src/use-cases/get-reply'
-import * as mongodb from 'mongodb'
 import { IntentRecognitionResponse } from '../../src/services/find-intention'
-const ObjectId = mongodb.ObjectId
 
 describe('use-case: get-reply', () => {
     describe("receives user's message and send smart reply message ", () => {
         describe('given a valid message and botId ', () => {
             it('it must return a valid reply', async () => {
                 const findReplyMock = jest.fn(
-                    async (message: string): Promise<IntentReply> => {
-                        return getSampleIntentReply()
+                    async (message: string): Promise<Reply> => {
+                        return getSampleReply()
                     }
                 )
 
@@ -57,7 +55,7 @@ describe('use-case: get-reply', () => {
         describe('given an unknow message and a valid botId ', () => {
             it('it must return the default reply', async () => {
                 const findReplyMock = jest.fn(
-                    async (message: string): Promise<IntentReply | null> => {
+                    async (message: string): Promise<Reply | null> => {
                         return null
                     }
                 )
@@ -104,9 +102,8 @@ describe('use-case: get-reply', () => {
     })
 })
 
-function getSampleIntentReply(): IntentReply {
+function getSampleReply(): Reply {
     return {
-        id: new ObjectId(),
         name: 'Goodbye',
         description: 'The visitor says goodbye.',
         reply: {
@@ -115,6 +112,7 @@ function getSampleIntentReply(): IntentReply {
         },
     }
 }
+
 function getSampleIntentRecognitionResponse(): IntentRecognitionResponse {
     return {
         intents: [

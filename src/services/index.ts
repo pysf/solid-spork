@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from 'config'
-import { getIntentReplyCollection } from '../mongodb/connection'
+import { db } from '../mongodb'
 import { buildFindReply } from './find-reply'
 import { buildFindIntention } from './find-intention'
 
@@ -16,7 +16,7 @@ const httpClient = axios.create({
 const findIntention = buildFindIntention({ httpClient })
 
 const findReply = buildFindReply({
-    getIntentReplyCollection,
+    getReplyCollection: db.getReplyCollection,
 })
 
 export { findIntention, findReply }

@@ -1,17 +1,15 @@
 import * as mongoDB from 'mongodb'
-import { IntentReply } from '../models/Intent-reply'
+import { Reply } from '../models/reply'
 
 export function buildFindReply(options: {
-    getIntentReplyCollection: () => mongoDB.Collection<IntentReply>
+    getReplyCollection: () => mongoDB.Collection<Reply>
 }) {
-    const { getIntentReplyCollection } = options
+    const { getReplyCollection } = options
 
-    return async function findReply(
-        intent: string
-    ): Promise<IntentReply | null> {
-        const intentReply = await getIntentReplyCollection().findOne({
+    return async function findReply(intent: string): Promise<Reply | null> {
+        const reply = await getReplyCollection().findOne({
             name: intent,
         })
-        return intentReply
+        return reply
     }
 }

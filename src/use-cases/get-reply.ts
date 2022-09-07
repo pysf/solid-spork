@@ -1,4 +1,4 @@
-import { IntentReply } from '../models/Intent-reply'
+import { Reply } from '../models/reply'
 import { IntentRecognitionResponse } from '../services/find-intention'
 
 export function buildGetReply(options: {
@@ -6,7 +6,7 @@ export function buildGetReply(options: {
         botId: string,
         message: string
     ) => Promise<IntentRecognitionResponse | null>
-    findReply: (message: string) => Promise<IntentReply | null>
+    findReply: (message: string) => Promise<Reply | null>
     getDefaultReply: () => Promise<string>
 }) {
     const { findIntention, findReply, getDefaultReply } = options
@@ -26,12 +26,12 @@ export function buildGetReply(options: {
             }
         )
 
-        const intentReply = await findReply(highestConfidence.name)
-        if (!intentReply) {
-            //todo: invistigate if this should be reported as inconsistency or lack of IntentReply
+        const reply = await findReply(highestConfidence.name)
+        if (!reply) {
+            //todo: invistigate if this should be reported as inconsistency or lack of reply
             return getDefaultReply()
         }
 
-        return intentReply.reply.text
+        return reply.reply.text
     }
 }

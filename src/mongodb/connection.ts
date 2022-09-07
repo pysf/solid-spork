@@ -1,36 +1,32 @@
 import * as mongoDB from 'mongodb'
-import config from 'config'
-import { IntentReply } from '../models/Intent-reply'
+import { Reply } from '../models/reply'
 
-const collections: { intentReply?: mongoDB.Collection<IntentReply> } = {}
+export const collections: { reply?: mongoDB.Collection<Reply> } = {}
 
-export function getIntentReplyCollection() {
-    if (!collections.intentReply) {
-        throw new Error('intentReply collection can not be null')
+export let client: mongoDB.MongoClient
+
+export function buildDBConnector(options: {
+    MONGODB_URI: string
+    DB_NAME: string
+    INTENT_REPLY_COLLECTION: string
+}) {
+    const { DB_NAME, MONGODB_URI, INTENT_REPLY_COLLECTION } = options
+
+    return async function connectToDB() {
+        client = new mongoDB.MongoClient(MONGODB_URI)
+
+        await client.connect()
+        const db = client.db(DB_NAME)
+
+        collections.reply = db.collection(INTENT_REPLY_COLLECTION)
+
+        await collections.reply.createIndex(
+            { name: 1 },
+            { name: INTENT_REPLY_BY_NAME_INDEX, unique: true }
+        )
+
+        // console.log(`Successfully connected to database: ${db.databaseName}`)
     }
-    return collections.intentReply
-}
-
-export async function connectToDB() {
-    console.log(config.get('MONGODB_URI'))
-    const client = new mongoDB.MongoClient(config.get('MONGODB_URI'))
-
-    await client.connect()
-    const db = client.db(config.get('DB_NAME'))
-
-    collections.intentReply = db.collection(
-        config.get('INTENT_REPLY_COLLECTION')
-    )
-
-    setupIndexes()
-    console.log(`Successfully connected to database: ${db.databaseName}...!`)
 }
 
 const INTENT_REPLY_BY_NAME_INDEX = 'intent_reply_by_name'
-
-async function setupIndexes() {
-    await getIntentReplyCollection().createIndex(
-        { name: 1 },
-        { name: INTENT_REPLY_BY_NAME_INDEX, unique: true }
-    )
-}

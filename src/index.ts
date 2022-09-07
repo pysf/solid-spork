@@ -1,18 +1,11 @@
-import express from 'express'
+import app from './app'
 import config from 'config'
-import { connectToDB } from './mongodb/connection'
-import router from './routes'
-import { seedRepliesIntoDB } from './seeder'
+import { db } from './mongodb'
+import { replySeeder } from './seeder'
 
-const app = express()
-
-connectToDB()
+db.connect()
     .then(async () => {
-        await seedRepliesIntoDB()
-
-        app.use(express.json())
-        app.use(express.urlencoded({ extended: true }))
-        app.use(router)
+        await replySeeder()
 
         app.listen(config.get('API_PORT'), () => {
             console.log(`Server started on port: ${config.get('API_PORT')}`)

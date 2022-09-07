@@ -1,12 +1,12 @@
-import intentReplyData from './intent_reply_examples.json'
-import { IntentReply } from '../models/Intent-reply'
-import { getIntentReplyCollection } from '../mongodb/connection'
-import { buildSeedIntentReply } from './intent-reply-seeder'
+import replyData from './intent_reply_examples.json'
+import { Reply } from '../models/reply'
+import { db } from '../mongodb'
+import { buildReplySeeder } from './reply-seeder'
 
-const data: IntentReply[] = JSON.parse(JSON.stringify(intentReplyData))
-const seedRepliesIntoDB = buildSeedIntentReply({
-    getIntentReplyCollection,
-    intentReplyData: data,
+const data: Reply[] = JSON.parse(JSON.stringify(replyData))
+const replySeeder = buildReplySeeder({
+    getReplyCollection: db.getReplyCollection,
+    replyData: data,
 })
 
-export { seedRepliesIntoDB }
+export { replySeeder }

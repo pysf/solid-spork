@@ -11,6 +11,8 @@ services:
         image: 'node:16'
         user: 'node'
         working_dir: /home/node/app
+        environment:
+            - NODE_ENV=dev
         volumes:
             - ./:/home/node/app
         ports:
