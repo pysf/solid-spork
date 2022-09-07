@@ -12,6 +12,3 @@ stop:
 
 down:
 	docker-compose down
-
-restart:
-	make down && make up 
