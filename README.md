@@ -1,8 +1,6 @@
 # solid-spork
 
-Although I tried to complete the challenge, I was unclear what I should do about the `confidence threshold`, so I decided not to.
-
-Maybe the bot only needs to send a reply if the confidence is higher than `confidence threshold`. But I was not sure so it is not implemented.
+Although I tried to complete the challenge, I was unclear what I should do about the `confidence threshold`, so I decided not to. Maybe the bot only needs to send a reply if the confidence is higher than `confidence threshold`. But I was not sure so it is not implemented.
 
 I would greatly appreciate any feedback you may have.
 
